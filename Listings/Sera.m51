@@ -1,0 +1,286 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    07/08/2021  08:52:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Main.obj TO .\Objects\Sera PRINT (.\Listings\Sera.m51)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Main.obj (MAIN)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Sera (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0015H     UNIT         ?DT?MAIN
+            IDATA   001DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     000DH                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+                    001EH     07E2H                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     0053H     UNIT         ?PR?MAIN?MAIN
+            CODE    08DFH     004BH     UNIT         ?PR?TIMER1_ISR?MAIN
+            CODE    092AH     0045H     UNIT         ?PR?TIMER0_ISR?MAIN
+            CODE    096FH     002CH     UNIT         ?C_INITSEG
+            CODE    099BH     0027H     UNIT         ?PR?READ_ADC?MAIN
+            CODE    09C2H     001EH     UNIT         ?PR?DELAY_1SEC?MAIN
+            CODE    09E0H     0016H     UNIT         ?PR?INIT?MAIN
+            CODE    09F6H     0013H     UNIT         ?PR?CLOSE_ROOF?MAIN
+            CODE    0A09H     0012H     UNIT         ?PR?OPEN_ROOF?MAIN
+            CODE    0A1BH     0010H     UNIT         ?PR?DELAY_50USEC?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Sera (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?INIT?MAIN
+  +--> ?PR?READ_ADC?MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/08/2021  08:52:52  PAGE 2
+
+
+  +--> ?PR?OPEN_ROOF?MAIN
+  +--> ?PR?CLOSE_ROOF?MAIN
+
+?PR?READ_ADC?MAIN
+  +--> ?PR?DELAY_50USEC?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Sera (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00B0H.5       PUBLIC        M2
+  B:00B0H.6       PUBLIC        M3
+  B:00B0H.7       PUBLIC        M4
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:092AH         PUBLIC        Timer0_ISR
+  C:08DFH         PUBLIC        Timer1_ISR
+  B:00A8H.7       PUBLIC        EA
+  D:0008H         PUBLIC        one_sec0
+  D:000AH         PUBLIC        one_sec1
+  D:000CH         PUBLIC        fifty_ms0
+  D:000EH         PUBLIC        fifty_ms1
+  C:088CH         PUBLIC        main
+  C:099BH         PUBLIC        read_adc
+  B:00A0H.5       PUBLIC        SU
+  C:09F6H         PUBLIC        close_roof
+  D:0089H         PUBLIC        TMOD
+  C:09E0H         PUBLIC        init
+  D:0010H         PUBLIC        roof_state
+  B:00B0H.0       PUBLIC        ADC_RD
+  C:09C2H         PUBLIC        Delay_1sec
+  D:0011H         PUBLIC        motor_time
+  B:00A0H.6       PUBLIC        Sulama_Button
+  B:00A8H.1       PUBLIC        ET0
+  B:00A8H.3       PUBLIC        ET1
+  B:0088H.5       PUBLIC        TF0
+  B:0088H.7       PUBLIC        TF1
+  D:008CH         PUBLIC        TH0
+  C:0A09H         PUBLIC        open_roof
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  B:00B0H.1       PUBLIC        ADC_WR
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  D:0013H         PUBLIC        temperature_set
+  C:0A1BH         PUBLIC        Delay_50usec
+  D:0015H         PUBLIC        k
+  D:0017H         PUBLIC        l
+  D:0019H         PUBLIC        temperature_measured
+  D:001BH         PUBLIC        su_time
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/08/2021  08:52:52  PAGE 3
+
+
+  B:00B0H.4       PUBLIC        M1
+  -------         PROC          MAIN
+  C:088CH         LINE#         51
+  C:088CH         LINE#         53
+  C:088EH         LINE#         54
+  C:0890H         LINE#         55
+  C:0892H         LINE#         56
+  C:0894H         LINE#         57
+  C:0896H         LINE#         58
+  C:0899H         LINE#         59
+  C:0899H         LINE#         61
+  C:089CH         LINE#         62
+  C:089FH         LINE#         63
+  C:08A1H         LINE#         64
+  C:08A3H         LINE#         65
+  C:08A3H         LINE#         66
+  C:08A6H         LINE#         68
+  C:08B8H         LINE#         69
+  C:08BBH         LINE#         70
+  C:08BDH         LINE#         71
+  C:08D0H         LINE#         72
+  C:08D3H         LINE#         73
+  C:08D5H         LINE#         74
+  C:08D5H         LINE#         75
+  C:08D7H         LINE#         76
+  C:08D9H         LINE#         77
+  C:08DBH         LINE#         78
+  C:08DDH         LINE#         79
+  C:08DDH         LINE#         82
+  -------         ENDPROC       MAIN
+  -------         PROC          INIT
+  C:09E0H         LINE#         84
+  C:09E0H         LINE#         85
+  C:09E3H         LINE#         86
+  C:09E6H         LINE#         87
+  C:09E9H         LINE#         88
+  C:09EBH         LINE#         90
+  C:09EEH         LINE#         91
+  C:09F1H         LINE#         92
+  C:09F3H         LINE#         93
+  C:09F5H         LINE#         94
+  -------         ENDPROC       INIT
+  -------         PROC          OPEN_ROOF
+  C:0A09H         LINE#         96
+  C:0A09H         LINE#         97
+  C:0A0DH         LINE#         99
+  C:0A0FH         LINE#         100
+  C:0A11H         LINE#         101
+  C:0A13H         LINE#         102
+  C:0A15H         LINE#         103
+  C:0A17H         LINE#         104
+  C:0A1AH         LINE#         106
+  C:0A1AH         LINE#         107
+  -------         ENDPROC       OPEN_ROOF
+  -------         PROC          CLOSE_ROOF
+  C:09F6H         LINE#         109
+  C:09F6H         LINE#         110
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/08/2021  08:52:52  PAGE 4
+
+
+  C:09FCH         LINE#         111
+  C:09FEH         LINE#         112
+  C:0A00H         LINE#         113
+  C:0A02H         LINE#         114
+  C:0A04H         LINE#         115
+  C:0A06H         LINE#         116
+  C:0A08H         LINE#         118
+  C:0A08H         LINE#         119
+  -------         ENDPROC       CLOSE_ROOF
+  -------         PROC          READ_ADC
+  C:099BH         LINE#         122
+  C:099BH         LINE#         123
+  C:099DH         LINE#         124
+  C:09A0H         LINE#         125
+  C:09A2H         LINE#         126
+  C:09A5H         LINE#         127
+  C:09A8H         LINE#         128
+  C:09ABH         LINE#         129
+  C:09AEH         LINE#         130
+  C:09B0H         LINE#         131
+  C:09B3H         LINE#         132
+  C:09B5H         LINE#         133
+  C:09C1H         LINE#         134
+  -------         ENDPROC       READ_ADC
+  -------         PROC          TIMER0_ISR
+  C:092AH         LINE#         136
+  C:092EH         LINE#         137
+  C:0936H         LINE#         138
+  C:093CH         LINE#         139
+  C:0944H         LINE#         140
+  C:094AH         LINE#         141
+  C:094AH         LINE#         143
+  C:0958H         LINE#         144
+  C:095AH         LINE#         145
+  C:095CH         LINE#         146
+  C:0962H         LINE#         147
+  C:0962H         LINE#         148
+  C:0965H         LINE#         149
+  C:0968H         LINE#         150
+  C:096AH         LINE#         151
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          TIMER1_ISR
+  C:08DFH         LINE#         153
+  C:08E3H         LINE#         154
+  C:08EBH         LINE#         155
+  C:08F1H         LINE#         156
+  C:08F9H         LINE#         157
+  C:08FFH         LINE#         158
+  C:08FFH         LINE#         160
+  C:090AH         LINE#         161
+  C:090CH         LINE#         162
+  C:0912H         LINE#         163
+  C:0914H         LINE#         164
+  C:0916H         LINE#         165
+  C:0918H         LINE#         166
+  C:091AH         LINE#         167
+  C:091DH         LINE#         168
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  07/08/2021  08:52:52  PAGE 5
+
+
+  C:091DH         LINE#         170
+  C:0920H         LINE#         171
+  C:0923H         LINE#         172
+  C:0925H         LINE#         173
+  -------         ENDPROC       TIMER1_ISR
+  -------         PROC          DELAY_1SEC
+  -------         DO            
+  D:0006H         SYMBOL        k
+  -------         ENDDO         
+  C:09C2H         LINE#         175
+  C:09C2H         LINE#         176
+  C:09C5H         LINE#         177
+  C:09C5H         LINE#         178
+  C:09C8H         LINE#         179
+  C:09CBH         LINE#         180
+  C:09CDH         LINE#         181
+  C:09D0H         LINE#         182
+  C:09D2H         LINE#         183
+  C:09D4H         LINE#         184
+  C:09DFH         LINE#         185
+  -------         ENDPROC       DELAY_1SEC
+  -------         PROC          DELAY_50USEC
+  C:0A1BH         LINE#         187
+  C:0A1BH         LINE#         188
+  C:0A1EH         LINE#         189
+  C:0A21H         LINE#         190
+  C:0A23H         LINE#         191
+  C:0A26H         LINE#         192
+  C:0A28H         LINE#         193
+  C:0A2AH         LINE#         194
+  -------         ENDPROC       DELAY_50USEC
+  -------         ENDMOD        MAIN
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY_1SEC?MAIN
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01A4H BYTE (20%) *
+******************************************************************************
+
+Program Size: data=30.0 xdata=0 code=564
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

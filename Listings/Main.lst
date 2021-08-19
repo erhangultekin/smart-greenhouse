@@ -1,0 +1,224 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              07/08/2021 00:46:47 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\Main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Main
+                    -.lst) TABS(2) OBJECT(.\Objects\Main.obj)
+
+line level    source
+
+   1            # include < reg51.h >
+   2          
+   3          sbit M1 = P3^4;
+   4          sbit M2 = P3^5;
+   5          sbit M3 = P3^6;
+   6          sbit M4 = P3^7;
+   7          //sbit Tavan_Acik = P2^4;
+   8          sbit SU = P2^5; //Sulama motoru çalistirmak için
+   9          sbit Sulama_Button = P2^6;
+  10          //sbit Tavan_Kapali = P2^7;
+  11          
+  12          sbit ADC_RD = P3^0;
+  13          sbit ADC_WR = P3^1;
+  14          sbit ADC_INT = P3^2;
+  15          
+  16          sbit ADC0 = P1^0;
+  17          sbit ADC1 = P1^1;
+  18          sbit ADC2 = P1^2;
+  19          sbit ADC3 = P1^3;
+  20          sbit ADC4 = P1^4;
+  21          sbit ADC5 = P1^5;
+  22          sbit ADC6 = P1^6;
+  23          sbit ADC7 = P1^7;
+  24          
+  25          unsigned int temperature_set = 25;
+  26          unsigned int temperature_measured = 25;
+  27          
+  28          unsigned int su_time = 30; //sn
+  29          unsigned int fifty_ms0 = 0;
+  30          unsigned int one_sec0 = 0;
+  31          
+  32          unsigned int motor_time = 10; //sn
+  33          unsigned int fifty_ms1 = 0;
+  34          unsigned int one_sec1 = 0;
+  35          
+  36          unsigned int k = 0;
+  37          unsigned int l = 0;
+  38          
+  39          unsigned char roof_state = 0; //kapali
+  40          
+  41          void init(void);
+  42          void read_adc(void);
+  43          void Timer0_ISR(void);
+  44          void Timer1_ISR(void);
+  45          void Delay_1sec(void);
+  46          void Delay_50usec(void);
+  47          
+  48          void open_roof(void);
+  49          void close_roof(void);
+  50          
+  51          void main(void) {
+  52   1      
+  53   1          M1 = 0;
+  54   1          M2 = 0;
+C51 COMPILER V9.60.0.0   MAIN                                                              07/08/2021 00:46:47 PAGE 2   
+
+  55   1          M3 = 0;
+  56   1          M4 = 0;
+  57   1          SU = 0;
+  58   1          init();
+  59   1          while (1) {
+  60   2            
+  61   2            if(Sulama_Button == 0){
+  62   3                while(!Sulama_Button);
+  63   3                SU = 1;
+  64   3                TR0 = 1;
+  65   3              }
+  66   2            read_adc();
+  67   2            
+  68   2            if(temperature_measured > temperature_set + 2){
+  69   3              open_roof();
+  70   3            }
+  71   2            else if(temperature_measured < temperature_set - 2){
+  72   3              close_roof();
+  73   3            }
+  74   2            else{
+  75   3              M1 = 0;
+  76   3          M2 = 0;
+  77   3          M3 = 0;
+  78   3          M4 = 0;
+  79   3            }
+  80   2              
+  81   2              
+  82   2          }
+  83   1      }
+  84          void init(void) {
+  85   1          TMOD = 0x11; // Timer1 in Mode1 and Timer0 in Mode1
+  86   1          TH1 = 0x4B; // Load timer value
+  87   1          TL1 = 0xFE;
+  88   1        ET1 = 1;
+  89   1          
+  90   1          TH0 = 0x4B; // Load timer value
+  91   1          TL0 = 0xFE;
+  92   1          ET0 = 1; // Enable Timer0 Interrupt
+  93   1          EA = 1; // Enable Global Interrupt bit
+  94   1      }
+  95          
+  96          void open_roof(void) {
+  97   1        if(roof_state == 0){
+  98   2          
+  99   2          M1 = 1;
+ 100   2          M2 = 0;
+ 101   2          M3 = 0;
+ 102   2          M4 = 1;
+ 103   2        TR1 = 1;
+ 104   2        roof_state = 1;
+ 105   2      
+ 106   2        }
+ 107   1      }
+ 108          
+ 109          void close_roof(void) {
+ 110   1        if(roof_state == 1){
+ 111   2        M1 = 0;
+ 112   2          M2 = 1;
+ 113   2          M3 = 1;
+ 114   2          M4 = 0;
+ 115   2          TR1 = 1;
+ 116   2        roof_state = 0;
+C51 COMPILER V9.60.0.0   MAIN                                                              07/08/2021 00:46:47 PAGE 3   
+
+ 117   2        
+ 118   2        }
+ 119   1      }
+ 120          
+ 121          
+ 122          void read_adc(void){
+ 123   1        ADC_WR = 0;
+ 124   1        Delay_50usec();
+ 125   1        ADC_WR = 1;
+ 126   1        Delay_50usec();
+ 127   1        Delay_50usec();
+ 128   1        Delay_50usec();
+ 129   1        Delay_50usec();
+ 130   1        ADC_RD = 1;
+ 131   1        Delay_50usec();
+ 132   1        ADC_RD = 0;
+ 133   1        temperature_measured = P1*2;
+ 134   1      }
+ 135            
+ 136          void Timer0_ISR(void)interrupt 1 {
+ 137   1          fifty_ms0 += 1;
+ 138   1          if (fifty_ms0 == 20) {
+ 139   2              one_sec0 += 1;
+ 140   2              fifty_ms0 = 0;
+ 141   2          }
+ 142   1      
+ 143   1          if (one_sec0 >= su_time && SU == 1) {
+ 144   2            SU = 0;  
+ 145   2            TR0 = 0;
+ 146   2            one_sec0 = 0;
+ 147   2          }
+ 148   1          TH0 = 0x4B; // Load timer value
+ 149   1          TL0 = 0xFE;
+ 150   1          TF0 = 0; // Clear the interrupt flag
+ 151   1      }
+ 152          
+ 153          void Timer1_ISR(void)interrupt 3 {
+ 154   1          fifty_ms1 += 1;
+ 155   1          if (fifty_ms1 == 20) {
+ 156   2              one_sec1 += 1;
+ 157   2              fifty_ms1 = 0;
+ 158   2          }
+ 159   1      
+ 160   1          if (one_sec1 >= motor_time) {
+ 161   2          TR1 = 0;
+ 162   2            one_sec1 = 0;
+ 163   2          M1 = 0;
+ 164   2          M2 = 0;
+ 165   2          M3 = 0;
+ 166   2          M4 = 0;
+ 167   2            roof_state = ~roof_state;
+ 168   2          }    
+ 169   1          
+ 170   1          TH1 = 0x4B; // Load timer value
+ 171   1          TL1 = 0xFE;
+ 172   1          TF1 = 0; // Clear the interrupt flag
+ 173   1      }
+ 174          
+ 175          void Delay_1sec(void) {
+ 176   1          unsigned int k = 0;
+ 177   1          for (k = 0; k < 20; k++) {
+ 178   2              TH1 = 0x4B; // Load timer value
+C51 COMPILER V9.60.0.0   MAIN                                                              07/08/2021 00:46:47 PAGE 4   
+
+ 179   2              TL1 = 0xFE;
+ 180   2              TR1 = 1; // timer0 start
+ 181   2              while (TF1 == 0); // check overflow condition
+ 182   2              TR1 = 0; // Stop Timer
+ 183   2              TF1 = 0; // Clear flag
+ 184   2          }
+ 185   1      }
+ 186          
+ 187          void Delay_50usec(void) {
+ 188   1          TH1 = 0x4B; // Load timer value
+ 189   1          TL1 = 0xFE;
+ 190   1          TR1 = 1; // timer0 start
+ 191   1          while (TF1 == 0); // check overflow condition
+ 192   1          TR1 = 0; // Stop Timer
+ 193   1          TF1 = 0; // Clear flag
+ 194   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    371    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     21    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
