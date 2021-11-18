@@ -11,4 +11,4 @@ TIMER1/TIMER2 INTERRUPT
 PROTEUS
 
 
-![Uploading image.png…]()
+![image](https://user-images.githubusercontent.com/46086662/142463003-fb09404e-4714-48da-af79-322bf6943c3a.png)
